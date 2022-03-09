@@ -1,53 +1,73 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button, TextInput } from "react-native";
 import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  ScrollView,
+  FlatList,
+} from "react-native";
 
 export default function App() {
-  const [enteredTextGoal, setEnteredTextGoal] = useState("");
-  const [courseGoal, setCourseGoal] = useState([]);
+  const [enteredGoal, setEnteredGoal] = useState("");
+  const [courseGoals, setCourseGoals] = useState([]);
 
-  const goalnputHandler = (enteredText) => {
-    setEnteredTextGoal(enteredText);
+  const goalInputHandler = (enteredText) => {
+    setEnteredGoal(enteredText);
   };
+
   const addGoalHandler = () => {
-    setCourseGoal((currentGoal) => [...courseGoal, enteredTextGoal]);
+    setCourseGoals((currentGoals) => [
+      ...currentGoals,
+      { id: Math.random().toString(), value: enteredGoal },
+    ]);
   };
+
   return (
-    <View style={styles.View}>
-      <View style={styles.InputContainer}>
+    <View style={styles.screen}>
+      <View style={styles.inputContainer}>
         <TextInput
-          placeholder="enter here"
-          style={styles.TextInput}
-          onChangeText={goalnputHandler}
-          value={enteredTextGoal}
+          placeholder="Course Goal"
+          style={styles.input}
+          onChangeText={goalInputHandler}
+          value={enteredGoal}
         />
-        <Button title="add" onPress={addGoalHandler} />
+        <Button title="ADD" onPress={addGoalHandler} />
       </View>
-      <View>
-        {courseGoal.map((goal) => (
-          <Text>{goal}</Text>
-        ))}
-      </View>
+      <FlatList
+        keyExtractor={(item, index) => item.id}
+        data={courseGoals}
+        renderItem={(itemData) => (
+          <View style={styles.listItem}>
+            <Text>{itemData.item.value}</Text>
+          </View>
+        )}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  View: {
+  screen: {
     padding: 50,
   },
-  InputContainer: {
+  inputContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  TextInput: {
+  input: {
+    width: "80%",
     borderColor: "black",
     borderWidth: 1,
     padding: 10,
-    width: 220,
   },
-  CourseGoalContainer: {
-    flexDirection: "column",
+  listItem: {
+    padding: 10,
+    marginVertical: 10,
+    backgroundColor: "#ccc",
+    borderColor: "black",
+    borderWidth: 1,
   },
 });
