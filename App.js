@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import {
   StyleSheet,
-  Text,
   View,
-  TextInput,
-  Button,
-  ScrollView,
   FlatList,
 } from "react-native";
 import GoalItemContainer from "./components/GoalItemContainer";
@@ -28,16 +24,14 @@ export default function App() {
 
   return (
     <View style={styles.screen}>
-      <View style={styles.inputContainer}>
-        <GoalEnteringTextInput
-          placeholder="Course Goal"
-          style={styles.input}
-          onChangeText={goalInputHandler}
-          value={enteredGoal}
-        />
-
-        <Button title="ADD" onPress={addGoalHandler} />
-      </View>
+      <GoalEnteringTextInput
+        placeholder="Course Goal"
+        style={styles.input}
+        onChangeText={goalInputHandler}
+        value={enteredGoal}
+        title="Add"
+        onPress={addGoalHandler}
+      />
       <FlatList
         keyExtractor={(item, index) => item.id}
         data={courseGoals}
@@ -52,10 +46,5 @@ export default function App() {
 const styles = StyleSheet.create({
   screen: {
     padding: 50,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
   },
 });
